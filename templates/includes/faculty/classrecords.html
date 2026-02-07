@@ -1,14 +1,13 @@
-<div id="classrecords" class="content-section">
+<div id="classrecords" class="content-section" style="display: none;">
     
     <div class="cr-module-header">
-        <h3>CLASS RECORDS</h3>
+        <h3>CLASS RECORDS (FACULTY VIEW)</h3>
     </div>
 
     <div class="cr-body-container">
         
         <div class="cr-top-nav">
-            <button class="cr-nav-pill active" onclick="ClassRecords.switchMainTab('records', this)">Class Record</button>
-            <button class="cr-nav-pill inactive" onclick="ClassRecords.switchMainTab('approval', this)">Grade Approval</button>
+            <button class="cr-nav-pill active">Class Record</button>
         </div>
 
         <div id="cr-main-view">
@@ -46,7 +45,7 @@
                 </div>
                 <div class="info-col">
                     <span class="label">Prepared By</span>
-                    <span class="val">Engr. Amir Hasan Bunza</span>
+                    <span class="val">Engr. Faculty</span>
                 </div>
             </div>
 
@@ -59,7 +58,7 @@
                     <button class="btn-tool"><i class='bx bx-filter'></i> Filter</button>
                     <button class="btn-tool dark"><i class='bx bx-import'></i> Import</button>
                     <button class="btn-tool"><i class='bx bx-export'></i> Export</button>
-                    <button class="btn-tool red"><i class='bx bx-send'></i> Send for Approval</button>
+                    <button class="btn-tool red"><i class='bx bx-send'></i> Submit for Approval</button>
                 </div>
             </div>
 
@@ -155,17 +154,8 @@
                 </div>
             </div>
         </div> 
-        <div id="cr-approval-view" style="display: none;">
-            <div class="approval-header">
-                <h3>Grade Approval Queue</h3>
-                <p>Review and manage class records pending approval.</p>
-            </div>
-            
-            <div id="approval-list-container">
-                </div>
+        
         </div>
-
-    </div>
 </div>
 
 <div id="gradeConfigModal" class="modal-overlay">
@@ -223,50 +213,6 @@
         <div class="modal-footer">
             <button class="btn-cancel" onclick="ClassRecords.closeConfigModal()">Cancel</button>
             <button class="btn-enroll" onclick="ClassRecords.saveConfiguration()">Save Configuration</button>
-        </div>
-    </div>
-</div>
-
-<div id="reviewModal" class="modal-overlay">
-    <div class="modal-content review-modal">
-        <div class="modal-header">
-            <div>
-                <h3 id="review-subject" style="margin:0; font-size:1.1rem; color:#333;">Grade Review</h3>
-                <p id="review-details" style="margin:4px 0 0; font-size:0.85rem; color:#666;">Details</p>
-            </div>
-            <span class="close-modal" onclick="ClassRecords.closeReviewModal()">&times;</span>
-        </div>
-        
-        <div class="config-body" style="padding: 20px;">
-            <div class="cr-table-wrapper" style="border: 1px solid #e5e7eb; border-radius: 8px; overflow:hidden;">
-                <table class="cr-main-table">
-                    <thead>
-                        <tr>
-                            <th style="background:#f3f4f6;">Student ID</th>
-                            <th style="background:#f3f4f6;">Name</th>
-                            <th style="background:#f3f4f6;">Course</th>
-                            <th style="background:#f3f4f6;">Year</th>
-                            <th class="text-center" style="background:#f3f4f6;">Quiz 1</th>
-                            <th class="text-center" style="background:#f3f4f6;">Quiz 2</th>
-                            <th class="text-center" style="background:#f3f4f6;">Quiz 3</th>
-                            <th class="text-center" style="background:#f3f4f6;">Midterm</th>
-                            <th class="text-center" style="background:#f3f4f6;">Finals</th>
-                            <th class="text-center" style="background:#f3f4f6;">Project</th>
-                            <th class="text-center" style="background:#f3f4f6;">Final Grade</th>
-                            <th class="text-center" style="background:#f3f4f6;">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="review-table-body">
-                        </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="modal-footer">
-            <button class="btn-cancel" onclick="ClassRecords.closeReviewModal()">Close</button>
-            <button class="btn-approve-modal" onclick="ClassRecords.approveFromReview()">
-                <i class='bx bx-check-circle'></i> Approve Grades
-            </button>
         </div>
     </div>
 </div>
