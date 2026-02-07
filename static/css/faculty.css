@@ -1,18 +1,18 @@
 /* =========================================
-   1. Base Layout & Sidebar (Restored)
+   1. Base Layout & Sidebar
    ========================================= */
 
-/* Main Container - Flex Row */
+/* Main Container */
 .dashboard-container {
     display: flex;
     width: 100%;
     min-height: 100vh;
-    background-color: #f8f9fa; /* Light grey background */
+    background-color: #f8f9fa;
 }
 
-/* Sidebar Styling - Fixed Left */
+/* Sidebar Styling - Fixed Left with Transition */
 .sidebar {
-    width: 260px;
+    width: 260px; /* Default Width */
     height: 100vh;
     position: fixed;
     left: 0;
@@ -22,13 +22,27 @@
     z-index: 100;
     display: flex;
     flex-direction: column;
+    transition: width 0.3s ease; /* Smooth transition */
 }
 
-/* Sidebar Header / Logo Area */
+/* Collapsed State */
+.sidebar.collapsed {
+    width: 80px;
+}
+
+/* Sidebar Header */
 .sidebar-header {
-    padding: 20px;
-    text-align: center;
+    padding: 20px 10px;
     border-bottom: 1px solid #eee;
+    height: 80px; /* Fixed height to match header */
+    display: flex;
+    align-items: center;
+}
+
+/* Hide Profile Text when Collapsed */
+.sidebar.collapsed .profile-text {
+    display: none;
+    opacity: 0;
 }
 
 /* Navigation Menu */
@@ -41,22 +55,34 @@
 .nav-item {
     display: flex;
     align-items: center;
-    padding: 15px 25px;
+    padding: 15px 0; /* Changed padding to rely on flex centering for icon */
     color: #333;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.2s ease;
     border-left: 4px solid transparent;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
+/* Icon Styling */
 .nav-item i {
     font-size: 1.3rem;
-    margin-right: 15px;
-    color: #800020; /* Maroon */
+    min-width: 80px; /* Width of collapsed sidebar to center icon */
+    display: flex;
+    justify-content: center;
+    color: #800020; 
+}
+
+/* Text Span - Hidden when collapsed */
+.sidebar.collapsed .nav-item span {
+    display: none;
+    opacity: 0;
 }
 
 .nav-item:hover, .nav-item.active {
-    background-color: #fff0f0; /* Light red tint */
+    background-color: #fff0f0;
     border-left-color: #800020;
     color: #800020;
 }
@@ -67,41 +93,22 @@
     border-top: 1px solid #eee;
 }
 
-/* Main Content Area - Pushed Right */
+/* Main Content Area - Resizes with Sidebar */
 .main-content {
-    margin-left: 260px; /* Must match sidebar width */
+    margin-left: 260px; /* Default margin */
     flex: 1;
-    padding: 30px 40px;
     background-color: #f8f9fa;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease; /* Smooth transition */
 }
 
-/* Top Header Banner */
-.head-top-bar {
-    height: 60px;
-    margin-bottom: 30px; 
-    display: flex; 
-    justify-content: flex-end; 
-    align-items: center;
-}
-
-.banner-text {
-    text-align: right; 
-    color: #333;
-}
-.banner-text h3 { font-size: 0.9rem; margin: 0; font-weight: 700; color: #800020; }
-.banner-text p { font-size: 0.8rem; margin: 0; color: #666; }
-
-.nav-logo {
-    height: 50px; 
-    margin-left: 20px; 
-    background: white; 
-    border-radius: 50%; 
-    padding: 2px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+/* Collapsed Main Content Margin */
+.main-content.collapsed-margin {
+    margin-left: 80px;
 }
 
 /* =========================================
-   2. New 3-Column Dashboard Grid
+   2. Dashboard Grid System
    ========================================= */
 
 .dashboard-grid { 
@@ -112,7 +119,6 @@
     min-height: 620px; 
 }
 
-/* Columns */
 .stats-col, .center-col { 
     display: flex; 
     flex-direction: column; 
@@ -120,7 +126,7 @@
     height: 100%; 
 }
 
-/* --- Stats Cards --- */
+/* Stats Cards */
 .stat-card { 
     flex: 1; 
     padding: 28px; 
@@ -138,8 +144,8 @@
 
 /* Card Gradients */
 .card-students { background: linear-gradient(135deg, #fbc69d 0%, #ffcaa6 100%); }
-.card-teachers { background: linear-gradient(135deg, #ffb2bd 0%, #ffc1c9 100%); } /* My Classes */
-.card-year { background: linear-gradient(135deg, #ff8e91 0%, #ff9fa2 100%); }     /* Grading Status */
+.card-teachers { background: linear-gradient(135deg, #ffb2bd 0%, #ffc1c9 100%); }
+.card-year { background: linear-gradient(135deg, #ff8e91 0%, #ff9fa2 100%); }
 
 .stat-label { 
     font-size: 1.1rem; 
@@ -165,7 +171,7 @@
     color: black; 
 }
 
-/* --- Center Info Boxes --- */
+/* Info Boxes */
 .info-box { 
     flex: 1; 
     background: #eaeff5; 
@@ -206,7 +212,7 @@
 .approved { color: #2e7d32; font-weight: 700; }
 .enrolled { color: #c62828; font-weight: 700; }
 
-/* Quick Actions List */
+/* Quick Actions */
 .actions-list { 
     display: flex; 
     flex-direction: column; 
@@ -254,7 +260,7 @@
     transform: translateY(-2px); 
 }
 
-/* --- Calendar Card --- */
+/* Calendar Card */
 .calendar-card { 
     background: white; 
     border-radius: 24px; 

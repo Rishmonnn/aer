@@ -1,5 +1,5 @@
 (function(){
-  // --- Calendar Logic (Ported from Program Head) ---
+  // --- Calendar Logic ---
   let currDate = new Date();
   
   function renderCalendar() {
@@ -47,25 +47,46 @@
     // Initialize Calendar
     renderCalendar();
 
-    // Event listeners for the NEW Quick Action buttons
+    // --- Sidebar Toggle Logic (New) ---
+    const toggleBtn = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+
+    if (toggleBtn && sidebar && mainContent) {
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('collapsed-margin');
+        });
+    }
+
+    // --- Quick Action Buttons Logic ---
     document.querySelectorAll('.action-trigger[data-action]').forEach(el=>{
-      el.addEventListener('click', ()=>{
+      el.addEventListener('click', (e)=>{
+        e.preventDefault();
         const action = el.dataset.action;
-        showSection(action); // Uses the global showSection from main.js or below
+        
+        // Use the global showSection logic if available
+        if(typeof window.showSection === 'function'){
+            window.showSection(action);
+        } else {
+            // Fallback if main.js isn't loaded yet
+            document.querySelectorAll('.content-section').forEach(c => c.classList.add('hidden')); 
+            const target = document.getElementById(action); 
+            if(target) target.classList.remove('hidden');
+
+            // Update Sidebar Active State
+            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+            // Find the nav item that corresponds to this action
+            const activeNav = document.querySelector(`.nav-item[onclick*="'${action}'"]`);
+            if(activeNav) activeNav.classList.add('active');
+        }
+
+        // Trigger module specific fetches if needed
+        if(action === 'grading' && window.FacultyGrading) window.FacultyGrading.loadClasses();
+        if(action === 'classes' && window.FacultyClasses) window.FacultyClasses.fetchClasses();
+        if(action === 'inc' && window.FacultyInc) window.FacultyInc.fetchInc();
       });
     });
-
-    // Helper: Internal show function if not global
-    function showSection(id){ 
-        document.querySelectorAll('.content-section').forEach(c=>c.classList.add('hidden')); 
-        const target = document.getElementById(id); 
-        if(target) target.classList.remove('hidden');
-      
-        // Trigger module fetches
-        if(id === 'grading' && window.FacultyGrading) window.FacultyGrading.loadClasses();
-        if(id === 'classes' && window.FacultyClasses) window.FacultyClasses.fetchClasses();
-        if(id === 'inc' && window.FacultyInc) window.FacultyInc.fetchInc();
-    }
   }
 
   document.addEventListener('DOMContentLoaded', init);

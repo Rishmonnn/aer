@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+{# 1. Disable default header #}
+{% block header %}{% endblock %}
 
 {% set pageStyles = ['program-head.css', 'enrollment.css', 'enlistment.css', 'student_journey.css', 'retention.css'] %}
-
 {% set pageScripts = ['program-head.js', 'enrollment.js', 'enlistment.js', 'student_journey.js', 'retention.js'] %}
 
 {% block content %}
@@ -33,13 +33,8 @@
     </aside>
 
     <div class="main-wrapper">
-        <header class="top-banner">
-            <div class="banner-text">
-                <h3>COLLEGE OF ENGINEERING AND ARCHITECTURE</h3>
-                <h3>ACADEMIC EVALUATION, RECORDS & INFORMATION SYSTEMS</h3>
-            </div>
-            <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo" style="height: 50px;">
-        </header>
+        
+        {% include 'includes/header.html' %}
 
         <main class="content-body" id="main-content">
             
@@ -140,11 +135,7 @@
             <div id="enrollment-view" style="display:none;">{% include 'includes/program-head/enrollment.html' %}</div>
             <div id="enlistment-view" style="display:none;">{% include 'includes/program-head/enlistment.html' %}</div>
             <div id="journey-view" style="display:none;">{% include 'includes/program-head/student_journey.html' %}</div>
-            
-            <div id="retention-view" style="display:none;">
-                {% include 'includes/program-head/retention.html' %}
-            </div>
-
+            <div id="retention-view" style="display:none;">{% include 'includes/program-head/retention.html' %}</div>
             <div id="advising-view" style="display:none;">{% include 'includes/program-head/advising.html' %}</div>
             <div id="classrecords-view" style="display:none;">{% include 'includes/program-head/classrecords.html' %}</div>
             <div id="schedules-view" style="display:none;">{% include 'includes/program-head/schedules.html' %}</div>
