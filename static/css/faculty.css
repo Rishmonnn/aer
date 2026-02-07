@@ -1,0 +1,87 @@
+/* Container adjustments to center the content like the image */
+.main-content {
+    background-color: #d1d1d1; /* The light grey background from image */
+    min-height: 100vh;
+    padding: 40px;
+}
+
+/* Sidebar logo constraints (fix overlap) */
+.sidebar{padding-top:12px}
+.sidebar .sidebar-logo{display:block;width:64px;height:64px;object-fit:contain;margin:12px auto;border-radius:50%;background:#fff;padding:6px;box-shadow:0 1px 3px rgba(0,0,0,0.12);} 
+
+/* Faculty layout overrides when no left sidebar */
+.dashboard-container.faculty-layout .main-content{ margin-left: 0 !important; padding-left: 60px; padding-right: 60px; }
+.dashboard-container.faculty-layout .head-top-bar{ height:80px; }
+
+/* Stats Cards */
+.stat-row.three {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+    justify-content: center;
+}
+
+.stat-card.large {
+    flex: 1;
+    max-width: 350px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    /* Soft shadow to match the screenshot */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+}
+
+.stat-number {
+    font-size: 36px;
+    font-weight: 800;
+    color: #333;
+}
+
+.stat-label {
+    color: #888;
+    margin-top: 8px;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+/* Action Grid Cards */
+.action-grid.faculty-actions {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.action-card.big {
+    flex: 1;
+    max-width: 350px;
+    border-radius: 15px;
+    /* Gradient: Orange/Tan to Deep Maroon */
+    background: linear-gradient(180deg, #d38c4d 0%, #8c3a32 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 0.85; /* Makes them slightly taller than square */
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+.action-card.big:hover {
+    transform: translateY(-5px);
+}
+
+.action-card.big i {
+    font-size: 80px; /* Larger icons as seen in image */
+    margin-bottom: 25px;
+    color: rgba(0, 0, 0, 0.7); /* Darker icon color for contrast */
+}
+
+.action-label {
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 1px;
+}

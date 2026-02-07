@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="dashboard-container faculty-layout head-theme">
+        <header class="head-top-bar">
+            <div class="logo-section">
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="CEA Logo" class="nav-logo">
+            </div>
+            <div class="user-info">
+                <span>Welcome, {{ user_name }}</span>
+                <div class="user-actions">
+                    <i class='bx bx-user-circle'></i>
+                    <a href="{{ url_for('logout') }}" class="logout-btn"><i class='bx bx-log-out'></i></a>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content head-content">
+            {% include 'includes/faculty/home.html' %}
+            {% include 'includes/faculty/grading.html' %}
+            {% include 'includes/faculty/classes.html' %}
+            {% include 'includes/faculty/inc.html' %}
+        </main>
+    </div>
+
+{% endblock %}
