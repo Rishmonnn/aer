@@ -1,26 +1,57 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="dashboard-container faculty-layout head-theme">
-        <header class="head-top-bar">
-            <div class="logo-section">
-                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="CEA Logo" class="nav-logo">
-            </div>
-            <div class="user-info">
-                <span>Welcome, {{ user_name }}</span>
-                <div class="user-actions">
-                    <i class='bx bx-user-circle'></i>
-                    <a href="{{ url_for('logout') }}" class="logout-btn"><i class='bx bx-log-out'></i></a>
+    <div class="dashboard-container faculty-layout">
+        
+        <aside class="sidebar">
+            <div class="sidebar-header" style="padding: 20px; text-align: center; border-bottom: 1px solid #eee;">
+                <div class="user-profile" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                     <div style="text-align: left; width: 100%; padding-left: 10px;">
+                        <p style="font-size: 0.85rem; color: #666; margin: 0;">Welcome,</p>
+                        <h3 style="font-size: 1rem; font-weight: 700; margin: 0;">{{ user_name }}</h3>
+                    </div>
                 </div>
             </div>
-        </header>
 
-        <main class="main-content head-content">
+            <nav class="nav-menu" style="margin-top: 20px;">
+                <a href="#" class="nav-item active" onclick="showSection('home')" style="display: flex; align-items: center; padding: 15px 25px; color: #333; text-decoration: none; font-weight: 600; transition: background 0.2s;">
+                    <i class='bx bx-home-alt-2' style="font-size: 1.2rem; margin-right: 15px; color: #800020;"></i> 
+                    <span>HOME</span>
+                </a>
+                
+                <a href="#" class="nav-item" onclick="showSection('classes')" style="display: flex; align-items: center; padding: 15px 25px; color: #333; text-decoration: none; font-weight: 600; transition: background 0.2s;">
+                    <i class='bx bx-folder' style="font-size: 1.2rem; margin-right: 15px; color: #800020;"></i> 
+                    <span>CLASS RECORDS</span>
+                </a>
+
+                <a href="#" class="nav-item" onclick="showSection('grading')" style="display: flex; align-items: center; padding: 15px 25px; color: #333; text-decoration: none; font-weight: 600; transition: background 0.2s;">
+                    <i class='bx bx-clipboard' style="font-size: 1.2rem; margin-right: 15px; color: #800020;"></i> 
+                    <span>GRADING</span>
+                </a>
+            </nav>
+
+            <div class="logout-section" style="position: absolute; bottom: 20px; width: 100%;">
+                <a href="{{ url_for('logout') }}" class="nav-item" style="display: flex; align-items: center; padding: 15px 25px; color: #333; text-decoration: none; font-weight: 600;">
+                    <i class='bx bx-log-out' style="font-size: 1.2rem; margin-right: 15px; color: #800020;"></i> 
+                    <span>LOG OUT</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content head-content" style="background-color: #f8f9fa;">
+            
+            <header class="head-top-bar" style="margin-bottom: 30px; display: flex; justify-content: flex-end; align-items: center;">
+                <div class="banner-text" style="text-align: right; color: white;">
+                    <h3 style="font-size: 0.9rem; margin: 0;">COLLEGE OF ENGINEERING AND ARCHITECTURE</h3>
+                    <p style="font-size: 0.8rem; margin: 0; opacity: 0.9;">ACADEMIC EVALUATION, RECORDS & INFORMATION SYSTEMS</p>
+                </div>
+                <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="CEA Logo" class="nav-logo" style="height: 50px; margin-left: 20px; background: white; border-radius: 50%; padding: 2px;">
+            </header>
+
             {% include 'includes/faculty/home.html' %}
             {% include 'includes/faculty/grading.html' %}
             {% include 'includes/faculty/classes.html' %}
             {% include 'includes/faculty/inc.html' %}
         </main>
     </div>
-
 {% endblock %}

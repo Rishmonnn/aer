@@ -1,87 +1,320 @@
-/* Container adjustments to center the content like the image */
-.main-content {
-    background-color: #d1d1d1; /* The light grey background from image */
+/* =========================================
+   1. Base Layout & Sidebar (Restored)
+   ========================================= */
+
+/* Main Container - Flex Row */
+.dashboard-container {
+    display: flex;
+    width: 100%;
     min-height: 100vh;
-    padding: 40px;
+    background-color: #f8f9fa; /* Light grey background */
 }
 
-/* Sidebar logo constraints (fix overlap) */
-.sidebar{padding-top:12px}
-.sidebar .sidebar-logo{display:block;width:64px;height:64px;object-fit:contain;margin:12px auto;border-radius:50%;background:#fff;padding:6px;box-shadow:0 1px 3px rgba(0,0,0,0.12);} 
-
-/* Faculty layout overrides when no left sidebar */
-.dashboard-container.faculty-layout .main-content{ margin-left: 0 !important; padding-left: 60px; padding-right: 60px; }
-.dashboard-container.faculty-layout .head-top-bar{ height:80px; }
-
-/* Stats Cards */
-.stat-row.three {
-    display: flex;
-    gap: 30px;
-    margin-bottom: 40px;
-    justify-content: center;
-}
-
-.stat-card.large {
-    flex: 1;
-    max-width: 350px;
-    background: #fff;
-    border-radius: 12px;
-    padding: 30px;
-    text-align: center;
-    /* Soft shadow to match the screenshot */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
-}
-
-.stat-number {
-    font-size: 36px;
-    font-weight: 800;
-    color: #333;
-}
-
-.stat-label {
-    color: #888;
-    margin-top: 8px;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-}
-
-/* Action Grid Cards */
-.action-grid.faculty-actions {
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.action-card.big {
-    flex: 1;
-    max-width: 350px;
-    border-radius: 15px;
-    /* Gradient: Orange/Tan to Deep Maroon */
-    background: linear-gradient(180deg, #d38c4d 0%, #8c3a32 100%);
-    color: #fff;
+/* Sidebar Styling - Fixed Left */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: white;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+    z-index: 100;
     display: flex;
     flex-direction: column;
+}
+
+/* Sidebar Header / Logo Area */
+.sidebar-header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+/* Navigation Menu */
+.nav-menu {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-item {
+    display: flex;
     align-items: center;
+    padding: 15px 25px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent;
+}
+
+.nav-item i {
+    font-size: 1.3rem;
+    margin-right: 15px;
+    color: #800020; /* Maroon */
+}
+
+.nav-item:hover, .nav-item.active {
+    background-color: #fff0f0; /* Light red tint */
+    border-left-color: #800020;
+    color: #800020;
+}
+
+/* Logout Section - Pushed to Bottom */
+.logout-section {
+    margin-top: auto;
+    border-top: 1px solid #eee;
+}
+
+/* Main Content Area - Pushed Right */
+.main-content {
+    margin-left: 260px; /* Must match sidebar width */
+    flex: 1;
+    padding: 30px 40px;
+    background-color: #f8f9fa;
+}
+
+/* Top Header Banner */
+.head-top-bar {
+    height: 60px;
+    margin-bottom: 30px; 
+    display: flex; 
+    justify-content: flex-end; 
+    align-items: center;
+}
+
+.banner-text {
+    text-align: right; 
+    color: #333;
+}
+.banner-text h3 { font-size: 0.9rem; margin: 0; font-weight: 700; color: #800020; }
+.banner-text p { font-size: 0.8rem; margin: 0; color: #666; }
+
+.nav-logo {
+    height: 50px; 
+    margin-left: 20px; 
+    background: white; 
+    border-radius: 50%; 
+    padding: 2px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* =========================================
+   2. New 3-Column Dashboard Grid
+   ========================================= */
+
+.dashboard-grid { 
+    display: grid; 
+    grid-template-columns: 290px 1fr 360px; 
+    gap: 28px; 
+    align-items: stretch; 
+    min-height: 620px; 
+}
+
+/* Columns */
+.stats-col, .center-col { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 24px; 
+    height: 100%; 
+}
+
+/* --- Stats Cards --- */
+.stat-card { 
+    flex: 1; 
+    padding: 28px; 
+    border-radius: 24px; 
+    position: relative; 
+    transition: transform 0.2s; 
+    color: #333;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    aspect-ratio: 1 / 0.85; /* Makes them slightly taller than square */
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+.stat-card:hover { transform: translateY(-3px); }
+
+/* Card Gradients */
+.card-students { background: linear-gradient(135deg, #fbc69d 0%, #ffcaa6 100%); }
+.card-teachers { background: linear-gradient(135deg, #ffb2bd 0%, #ffc1c9 100%); } /* My Classes */
+.card-year { background: linear-gradient(135deg, #ff8e91 0%, #ff9fa2 100%); }     /* Grading Status */
+
+.stat-label { 
+    font-size: 1.1rem; 
+    font-weight: 600; 
+    color: #4a4a4a; 
+    margin-bottom: 8px; 
+    text-transform: uppercase; 
 }
 
-.action-card.big:hover {
-    transform: translateY(-5px);
+.stat-card .val { 
+    font-size: 2.8rem; 
+    font-weight: 700; 
+    color: #222; 
+    line-height: 1; 
 }
 
-.action-card.big i {
-    font-size: 80px; /* Larger icons as seen in image */
-    margin-bottom: 25px;
-    color: rgba(0, 0, 0, 0.7); /* Darker icon color for contrast */
+.card-icon { 
+    position: absolute; 
+    top: 25px; 
+    right: 25px; 
+    font-size: 2rem; 
+    opacity: 0.25; 
+    color: black; 
 }
 
-.action-label {
-    font-weight: 800;
-    font-size: 20px;
-    letter-spacing: 1px;
+/* --- Center Info Boxes --- */
+.info-box { 
+    flex: 1; 
+    background: #eaeff5; 
+    border-radius: 24px; 
+    padding: 32px; 
+    border: 1px solid rgba(255,255,255,0.5); 
+    display: flex; 
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
+
+.box-label { 
+    font-size: 1.1rem; 
+    font-weight: 700; 
+    margin-bottom: 24px; 
+    color: #333; 
+}
+
+/* Activity List */
+.activity-list { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 16px; 
+    flex-grow: 1; 
+}
+
+.activity-item { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding-bottom: 12px; 
+    border-bottom: 1px solid rgba(0,0,0,0.05); 
+    font-size: 0.9rem; 
+}
+.activity-item:last-child { border-bottom: none; }
+
+.timestamp { color: #777; font-size: 0.75rem; }
+.approved { color: #2e7d32; font-weight: 700; }
+.enrolled { color: #c62828; font-weight: 700; }
+
+/* Quick Actions List */
+.actions-list { 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-evenly; 
+    flex-grow: 1; 
+}
+
+.action-row { 
+    display: grid; 
+    grid-template-columns: 1fr 140px; 
+    gap: 20px; 
+    align-items: center; 
+    background: rgba(255,255,255,0.6); 
+    padding: 12px 16px; 
+    border-radius: 16px; 
+    transition: background 0.2s;
+}
+.action-row:hover { background: rgba(255,255,255,0.9); }
+
+.action-text { 
+    font-size: 0.9rem; 
+    font-weight: 600; 
+    color: #444; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+}
+.action-text i { font-size: 1.2rem; color: #800020; }
+
+.btn-action { 
+    background: #b9f2c7; 
+    color: #1b5e20; 
+    border: none; 
+    padding: 10px 12px; 
+    border-radius: 10px; 
+    font-size: 0.8rem; 
+    font-weight: 700; 
+    cursor: pointer; 
+    width: 100%; 
+    text-align: center;
+    transition: transform 0.1s;
+}
+.btn-action:hover { 
+    background: #a3e8b5; 
+    transform: translateY(-2px); 
+}
+
+/* --- Calendar Card --- */
+.calendar-card { 
+    background: white; 
+    border-radius: 24px; 
+    padding: 30px; 
+    border: 1px solid #eee; 
+    display: flex; 
+    flex-direction: column; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+    height: 100%; 
+}
+
+.calendar-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 25px; 
+}
+
+.calendar-selects select { 
+    border: 1px solid #e0e0e0; 
+    padding: 6px 12px; 
+    border-radius: 8px; 
+    font-size: 0.9rem; 
+    background: #f9f9f9; 
+    cursor: pointer; 
+    margin-right: 5px;
+}
+
+.calendar-card table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    flex-grow: 1; 
+    text-align: center; 
+}
+
+.calendar-card th { 
+    font-size: 0.75rem; 
+    color: #999; 
+    text-transform: uppercase; 
+    padding-bottom: 15px; 
+}
+
+.calendar-card td { 
+    font-size: 0.95rem; 
+    padding: 10px 0; 
+    font-weight: 500; 
+    color: #333; 
+    border-radius: 8px;
+}
+
+.calendar-card td.today { 
+    background: #333; 
+    color: white !important; 
+}
+
+.calendar-btn { 
+    font-size: 1.5rem; 
+    cursor: pointer; 
+    color: #888; 
+    padding: 0 5px;
+    user-select: none;
+}
+.calendar-btn:hover { color: #333; }
