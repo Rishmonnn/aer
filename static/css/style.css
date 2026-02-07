@@ -8,7 +8,10 @@
     --text-muted: #718096;
     --bg-body: #f7fafc;
     --white: #ffffff;
-    --sidebar-width: 260px;
+    
+    /* UPDATED: Changed from 260px to 280px to match Program Head */
+    --sidebar-width: 280px; 
+    
     --header-height: 80px;
 }
 
@@ -24,13 +27,13 @@ h1, h2, h3 { font-family: 'Poppins', sans-serif; }
 .hidden { display: none !important; }
 
 /* =========================================
-   SHARED HEADER STYLES (Maroon Banner Design)
+   SHARED HEADER STYLES
    ========================================= */
 .head-header {
-    background-color: #781b26; /* Dark Maroon */
+    background-color: #781b26;
     height: var(--header-height);
     display: flex;
-    justify-content: flex-end; /* Aligns content to the right */
+    justify-content: flex-end;
     align-items: center;
     padding: 0 40px;
     width: 100%;
@@ -66,6 +69,5 @@ h1, h2, h3 { font-family: 'Poppins', sans-serif; }
 .head-logo {
     height: 55px;
     width: auto;
-    /* Background, padding, and border-radius removed to eliminate white circle */
     filter: drop-shadow(0px 2px 3px rgba(0,0,0,0.2));
 }
