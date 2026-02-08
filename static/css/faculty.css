@@ -142,7 +142,8 @@ html, body {
 
 /* Ensure the component fills the wrapper */
 #classrecords {
-    height: 100%;
+    min-height: 100%;   /* <--- CHANGE TO THIS */
+    height: auto;       /* Let it grow vertically */
     display: flex;
     flex-direction: column;
 }
