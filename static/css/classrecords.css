@@ -73,7 +73,13 @@
 
 /* Table General */
 .cr-table-wrapper {
-    background: white; border-radius: 0 8px 8px 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); width: 100%;
+    background: white; 
+    border-radius: 0 8px 8px 8px; 
+    /* removed overflow: hidden to prevent clipping scrollbars on zoom */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+    width: 100%;
+    display: flex;       /* Ensures it behaves like a container */
+    flex-direction: column;
 }
 .cr-main-table { width: 100%; border-collapse: collapse; white-space: nowrap; }
 .cr-main-table th {
