@@ -21,14 +21,12 @@
       days += "</tr>";
       body.innerHTML = days;
       
-      // Update selects if they exist
       const mSelect = document.getElementById('monthSelect');
       const ySelect = document.getElementById('yearSelect');
       if(mSelect) mSelect.value = m;
       if(ySelect) ySelect.value = y;
   }
 
-  // Global functions for inline HTML onclick events
   window.changeMonth = function(step) {
       currDate.setMonth(currDate.getMonth() + step);
       renderCalendar();
@@ -44,16 +42,20 @@
 
   // --- Main Init ---
   function init(){
-    // Initialize Calendar
     renderCalendar();
 
-    // --- Sidebar Toggle Logic (New) ---
+    // --- Sidebar Toggle Logic ---
     const toggleBtn = document.getElementById('sidebarToggle');
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.getElementById('mainContent');
 
     if (toggleBtn && sidebar && mainContent) {
-        toggleBtn.addEventListener('click', () => {
+        // Remove any existing listener to prevent duplicates (optional but safe)
+        const newBtn = toggleBtn.cloneNode(true);
+        toggleBtn.parentNode.replaceChild(newBtn, toggleBtn);
+
+        newBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Stop event bubbling
             sidebar.classList.toggle('collapsed');
             mainContent.classList.toggle('collapsed-margin');
         });
@@ -65,23 +67,19 @@
         e.preventDefault();
         const action = el.dataset.action;
         
-        // Use the global showSection logic if available
         if(typeof window.showSection === 'function'){
             window.showSection(action);
         } else {
-            // Fallback if main.js isn't loaded yet
+            // Fallback
             document.querySelectorAll('.content-section').forEach(c => c.classList.add('hidden')); 
             const target = document.getElementById(action); 
             if(target) target.classList.remove('hidden');
 
-            // Update Sidebar Active State
             document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            // Find the nav item that corresponds to this action
             const activeNav = document.querySelector(`.nav-item[onclick*="'${action}'"]`);
             if(activeNav) activeNav.classList.add('active');
         }
 
-        // Trigger module specific fetches if needed
         if(action === 'grading' && window.FacultyGrading) window.FacultyGrading.loadClasses();
         if(action === 'classes' && window.FacultyClasses) window.FacultyClasses.fetchClasses();
         if(action === 'inc' && window.FacultyInc) window.FacultyInc.fetchInc();
@@ -89,5 +87,10 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', init);
+  // Ensure init runs whether DOM is loading or already loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();

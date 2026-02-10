@@ -6,7 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
 function initSidebar() {
     const sidebar = document.getElementById('sidebar');
     const toggle = document.getElementById('sidebarToggle');
-    if (toggle && sidebar) toggle.addEventListener('click', () => sidebar.classList.toggle('collapsed'));
+    // FIX: Select the main wrapper class used in program-head.html
+    const mainWrapper = document.querySelector('.main-wrapper');
+
+    if (toggle && sidebar && mainWrapper) {
+        toggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            mainWrapper.classList.toggle('collapsed');
+        });
+    }
 }
 
 // Stats Cycling
@@ -51,7 +59,7 @@ function switchTab(evt, section) {
         if (section === 'retention') {
             setTimeout(() => {
                 if (window.initRetentionChart) window.initRetentionChart();
-            }, 100); // 100ms delay allows the browser to calculate width
+            }, 100); 
         }
     }
 }

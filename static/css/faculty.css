@@ -4,14 +4,14 @@
 
 html, body {
     height: 100%;
-    overflow: hidden; /* Prevent body scroll */
+    overflow: hidden; 
 }
 
 /* Main Container */
 .dashboard-container {
     display: flex;
     width: 100%;
-    height: 100vh; /* Lock height to viewport */
+    height: 100vh; 
     background-color: #f8f9fa;
     overflow: hidden;
 }
@@ -37,18 +37,49 @@ html, body {
     width: 80px;
 }
 
-/* Sidebar Header */
+/* Sidebar Header & Profile */
 .sidebar-header {
-    padding: 0 25px 40px;
+    padding: 0 25px 40px; /* Default Padding */
     display: flex;
     align-items: center;
-    gap: 15px;
     overflow: hidden;
     white-space: nowrap;
     flex-shrink: 0;
+    transition: padding 0.3s ease;
 }
 
+/* Adjust padding when collapsed so the icon stays centered/visible */
+.sidebar.collapsed .sidebar-header {
+    padding: 0 0 40px 0; 
+    justify-content: center;
+}
+
+.user-profile {
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+    padding-left: 10px; /* Moved from inline style */
+    width: 100%;
+}
+
+.sidebar.collapsed .user-profile {
+    padding-left: 0;
+    justify-content: center;
+}
+
+#sidebarToggle {
+    font-size: 24px; 
+    cursor: pointer; 
+    color: #333;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+/* Text inside profile */
+.profile-text p { font-size: 0.85rem; color: #666; margin: 0; }
+.profile-text h3 { font-size: 1rem; font-weight: 700; margin: 0; }
+
 .sidebar.collapsed .profile-text { display: none; }
+
 
 /* Navigation Menu */
 .nav-menu {
@@ -102,48 +133,43 @@ html, body {
     flex-shrink: 0;
 }
 
-/* Main Content Area - FLEX COLUMN */
+/* Main Content Area */
 .main-content {
     margin-left: 280px;
     flex: 1;
     background-color: #f8f9fa;
-    height: 100vh; /* Locked height */
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* No scroll here */
+    overflow: hidden;
     transition: margin-left 0.3s ease;
 }
 
+/* JS Toggles this class */
 .main-content.collapsed-margin {
     margin-left: 80px;
 }
 
 /* --- VIEW WRAPPERS --- */
-
-/* 1. Standard Content (Home/Dashboard) */
-/* Needs to scroll internally if content is tall */
 #content-wrapper {
     padding: 30px 50px;
     flex: 1;
-    overflow-y: auto; /* Scrollable body for dashboard */
+    overflow-y: auto; 
 }
 
-/* 2. Class Records Wrapper (Fixed Layout) */
-/* Needs to BE LOCKED so internal table scrolls instead */
 #classrecords-wrapper {
-    padding: 30px 50px; /* The gap/padding from sides you requested */
+    padding: 30px 50px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    overflow-y: auto; /* Prevent page scroll */
-    height: 100%;     /* Force full available height */
+    overflow-y: auto;
+    height: 100%;     
     box-sizing: border-box;
 }
 
-/* Ensure the component fills the wrapper */
 #classrecords {
-    min-height: 100%;   /* <--- CHANGE TO THIS */
-    height: auto;       /* Let it grow vertically */
+    min-height: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
 }

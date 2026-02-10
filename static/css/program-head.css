@@ -28,12 +28,9 @@ body {
     color: white; 
     display: flex; 
     flex-direction: column; 
-    
-    /* CRITICAL FIX: Only top padding. Bottom padding removed so logout hits the edge. */
     padding: 30px 0 0 0; 
-    
     height: 100vh; 
-    position: fixed; /* Ensures it stays pinned */
+    position: fixed; 
     left: 0;
     top: 0;
     z-index: 100;
@@ -55,16 +52,15 @@ body {
 }
 .sidebar.collapsed .user-profile div { display: none; }
 
-/* Navigation Menu - Pushes Logout to Bottom */
+/* Navigation Menu */
 .nav-menu { 
-    flex-grow: 1;      /* This pushes the logout section down */
-    overflow-y: auto;  /* Allows scrolling if menu is tall */
+    flex-grow: 1;      
+    overflow-y: auto;  
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
 }
 
-/* Hide Scrollbar */
 .nav-menu::-webkit-scrollbar { width: 4px; }
 .nav-menu::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
 .nav-menu::-webkit-scrollbar-track { background: transparent; }
@@ -96,21 +92,17 @@ body {
 .nav-item:hover { color: white; background: rgba(255,255,255,0.08); }
 .nav-item.active { background-color: #4a4a4a; color: white; border-left-color: var(--maroon); }
 
-/* Logout Section - Fixed at Bottom */
+/* Logout Section */
 .logout-section { 
     width: 100%;
     padding: 20px 0; 
-    
-    /* The "Vague Line" above the button */
     border-top: 1px solid rgba(255,255,255,0.1); 
-    
-    margin-top: auto; /* Forces element to the absolute bottom */
+    margin-top: auto; 
     background-color: var(--dark-bg); 
     flex-shrink: 0;   
 }
 
 /* --- Main Layout --- */
-/* Added left margin to accommodate fixed sidebar */
 .main-wrapper { 
     margin-left: var(--sidebar-width); 
     flex-grow: 1; 
@@ -121,9 +113,10 @@ body {
     transition: margin-left 0.3s ease;
 }
 
-/* Adjust margin when sidebar is collapsed (via JS class on sidebar, usually implies body change) 
-   Note: This requires JS to toggle a class on main-wrapper or body, but default stays safe.
-*/
+/* FIX: Added this rule to handle collapsed state */
+.main-wrapper.collapsed {
+    margin-left: var(--sidebar-collapsed-width);
+}
 
 .content-body { padding: 35px 45px; height: 100%; background-color: #f8f9fa; overflow-y: auto; }
 
