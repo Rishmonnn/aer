@@ -2,6 +2,10 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 from functools import wraps
 import os
 from config import get_config
+import random
+
+# --- NEW: Import the Database and Models ---
+from models import db, User, Student, Subject, Section, Enrollment
 
 app = Flask(__name__, 
     template_folder=os.path.join(os.path.dirname(__file__), 'templates'),
@@ -10,6 +14,15 @@ app = Flask(__name__,
 # Load configuration
 config_env = os.environ.get('FLASK_ENV', 'development')
 app.config.from_object(get_config(config_env))
+
+# --- NEW: Initialize Database with the App ---
+db.init_app(app)
+
+# --- NEW: Create Tables Automatically (Run once on startup) ---
+with app.app_context():
+    # This creates the tables defined in models.py if they don't exist
+    db.create_all()
+    print("Database tables created successfully!")
 
 # ==================== FACULTY MOCK DATA (Minimal) ====================
 FACULTY_DATA = {
@@ -51,6 +64,7 @@ def login():
     if not email or not password or not role:
         return redirect(url_for('index'))
     
+    # TODO: In Phase 2, we will replace this with a Database Check (User.query.filter_by...)
     if role == 'faculty' and 'faculty' in email:
         session['user'] = email
         session['role'] = 'faculty'
@@ -123,9 +137,56 @@ def get_inc_requests():
 
 # ==================== GENERIC/STUB APIs ====================
 
+# ... (Make sure you have 'import random' at the very top of app.py) ...
+
 @app.route('/api/enrollment', methods=['POST'])
 @login_required
-def enroll_students(): return jsonify({'status': 'success'})
+def enroll_students():
+    data = request.get_json()
+    if not data:
+        return jsonify({'status': 'error', 'message': 'No data received'}), 400
+    
+    success_count = 0
+    
+    try:
+        for row in data:
+            # 1. Handle ID (Use provided ID or Generate Temp one if missing)
+            student_id = row.get('student_id')
+            if not student_id:
+                # Fallback: Generate ID (e.g., 2024-XXXX)
+                student_id = f"2024-{random.randint(10000, 99999)}"
+            
+            # 2. Check if student exists
+            student = Student.query.get(student_id)
+            
+            # 3. Create Name String
+            full_name = f"{row.get('lastname', '')}, {row.get('firstname', '')}"
+            if row.get('middlename'):
+                full_name += f" {row.get('middlename')[0]}."
+            
+            if not student:
+                # Create New Student
+                student = Student(
+                    id=str(student_id),
+                    name=full_name,
+                    program=row.get('program', 'BSCpE'),
+                    email=row.get('email'),
+                    year_level='1st Year',
+                    status='Regular'
+                )
+                db.session.add(student)
+                success_count += 1
+            else:
+                # Optional: Update existing student data if needed
+                pass
+
+        db.session.commit()
+        return jsonify({'status': 'success', 'count': success_count})
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @app.route('/api/advising', methods=['GET'])
 @login_required

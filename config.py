@@ -21,6 +21,8 @@ class Config:
     
     # File upload settings
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB max upload
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://rishmonnn:Richmond%40123@localhost/aeris_db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class DevelopmentConfig(Config):

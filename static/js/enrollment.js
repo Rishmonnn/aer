@@ -213,17 +213,73 @@ function updatePreviewTable() {
 
 // --- WIZARD NAVIGATION ---
 function nextStep() {
-    if (currentStep < 4) {
+    if (currentStep === 3) {
+        // TRIGGER API CALL
+        submitEnrollment();
+    } else if (currentStep < 4) {
         currentStep++;
         if (currentStep === 2) updateMappingUI();
         if (currentStep === 3) updatePreviewTable();
-        if (currentStep === 4) {
-            document.getElementById('success-message').innerText = `${uploadedData.length} freshmen records have been imported successfully`;
-        }
         updateStepUI();
     } else {
         closeUploadModal();
     }
+}
+
+function submitEnrollment() {
+    const btn = document.getElementById('btn-next');
+    const originalText = btn.innerText;
+    btn.innerText = "Importing...";
+    btn.disabled = true;
+
+    // 1. GATHER DATA BASED ON MAPPINGS
+    const mappings = {};
+    document.querySelectorAll('.map-select').forEach(sel => {
+        if(sel.value) mappings[sel.getAttribute('data-key')] = sel.value;
+    });
+
+    const payload = uploadedData.map(row => {
+        return {
+            student_id: row[mappings['student_id']] || null,
+            lastname: row[mappings['lastname']] || '',
+            firstname: row[mappings['firstname']] || '',
+            middlename: row[mappings['middlename']] || '',
+            program: row[mappings['program']] || 'BSCpE',
+            email: row[mappings['email']] || '',
+            contact: row[mappings['contact']] || '',
+            address: row[mappings['address']] || '',
+            gender: row[mappings['gender']] || ''
+        };
+    });
+
+    // 2. SEND TO FLASK SERVER
+    fetch('/api/enrollment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            // Update Success Message
+            document.getElementById('success-message').innerText = 
+                `${data.count} students successfully enrolled!`;
+            
+            // Move to Success Step
+            currentStep++;
+            updateStepUI();
+        } else {
+            alert("Import Failed: " + (data.message || "Unknown error"));
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Server Error: Unable to save students.");
+    })
+    .finally(() => {
+        btn.innerText = originalText;
+        btn.disabled = false;
+    });
 }
 
 function prevStep() {
