@@ -41,7 +41,7 @@ function switchTab(evt, section) {
     const views = [
         'home-view', 'enrollment-view', 'enlistment-view', 
         'journey-view', 'retention-view', 'advising-view', 
-        'classrecords-view', 'schedules-view'
+        'classrecords-view', 'schedules-view', 'instructors-view'
     ];
 
     views.forEach(id => {
@@ -61,10 +61,20 @@ function switchTab(evt, section) {
                 if (window.initRetentionChart) window.initRetentionChart();
             }, 100); 
         }
+
+        // --- NEW: Initialize Schedules when tab is clicked ---
+        if (section === 'schedules') {
+            // Wait slightly for div to be visible
+            setTimeout(() => {
+                if (window.Schedules && window.Schedules.init) {
+                    window.Schedules.init();
+                }
+            }, 100);
+        }
     }
 }
 
-// Calendar Logic
+// Calendar Logic (Home Dashboard)
 let currDate = new Date();
 function renderCalendar() {
     const m = currDate.getMonth(), y = currDate.getFullYear();

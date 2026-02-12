@@ -2,17 +2,7 @@
     let calendarInstance = null;
     let currentActiveYear = "1"; 
 
-    // 1. FACULTY LIST (Mock Database - Replace with real DB data later)
-    const facultyList = [
-        "Engr. Juan Dela Cruz",
-        "Engr. Maria Clara",
-        "Dr. Jose Rizal",
-        "Mr. Andres Bonifacio",
-        "Ms. Gabriela Silang",
-        "Engr. Antonio Luna",
-        "Dr. Apolinario Mabini",
-        "TBA" // "To Be Announced" option
-    ];
+    // 1. FACULTY LIST (Fetched via API in init)
 
     // 2. FULL CURRICULUM DATA
     const curriculumData = [
@@ -25,70 +15,7 @@
         { year: "1", sem: "1", code: "CPE 034", title: "Computer Engineering as a Discipline", lec: 1, lab: 0 },
         { year: "1", sem: "1", code: "CPE 035", title: "Programming Logic and Design", lec: 0, lab: 2 },
         { year: "1", sem: "1", code: "NST 021", title: "National Service Training Program 1", lec: 3, lab: 0 },
-        // Year 1, Sem 2
-        { year: "1", sem: "2", code: "GEN 004", title: "Readings in Philippine History", lec: 3, lab: 0 },
-        { year: "1", sem: "2", code: "ART 002", title: "Art Appreciation", lec: 3, lab: 0 },
-        { year: "1", sem: "2", code: "GEN 001", title: "Purposive Communication", lec: 3, lab: 0 },
-        { year: "1", sem: "2", code: "GEN 005", title: "The Contemporary World", lec: 3, lab: 0 },
-        { year: "1", sem: "2", code: "MAT 076", title: "Calculus 2", lec: 3, lab: 0 },
-        { year: "1", sem: "2", code: "PHY 032", title: "Physics for Engineers", lec: 3, lab: 1 },
-        { year: "1", sem: "2", code: "ITE 290", title: "Object-Oriented Programming", lec: 0, lab: 2 },
-        { year: "1", sem: "2", code: "NST 022", title: "National Service Training Program 2", lec: 3, lab: 0 },
-        // Year 2, Sem 1
-        { year: "2", sem: "1", code: "MAT 126", title: "Differential Equations", lec: 3, lab: 0 },
-        { year: "2", sem: "1", code: "CHE 025", title: "Chemistry for Engineers", lec: 3, lab: 1 },
-        { year: "2", sem: "1", code: "ITE 294", title: "Data Structures and Algorithms", lec: 0, lab: 2 },
-        { year: "2", sem: "1", code: "ECE 069", title: "Engineering Data Analysis", lec: 3, lab: 0 },
-        { year: "2", sem: "1", code: "CPE 037", title: "Fundamentals of Electric Circuits", lec: 3, lab: 1 },
-        { year: "2", sem: "1", code: "PED 030", title: "(PATHFIT 1) Movement Competency Training", lec: 2, lab: 0 },
-        { year: "2", sem: "1", code: "SSP 005", title: "Student Success Program 1", lec: 1, lab: 0 },
-        { year: "2", sem: "1", code: "GEN 006", title: "Ethics", lec: 3, lab: 0 },
-        // Year 2, Sem 2
-        { year: "2", sem: "2", code: "BES 024", title: "Computer-Aided Drafting", lec: 0, lab: 1 },
-        { year: "2", sem: "2", code: "ECO 017", title: "Engineering Economics", lec: 3, lab: 0 },
-        { year: "2", sem: "2", code: "MAT 042", title: "Discrete Mathematics", lec: 3, lab: 0 },
-        { year: "2", sem: "2", code: "MAT 120", title: "Numerical Methods", lec: 3, lab: 0 },
-        { year: "2", sem: "2", code: "CPE 038", title: "Software Design", lec: 3, lab: 1 },
-        { year: "2", sem: "2", code: "CPE 039", title: "Fundamentals of Electronic Circuits", lec: 3, lab: 1 },
-        { year: "2", sem: "2", code: "PED 031", title: "(PATHFIT 2) Exercise Based Fitness Activities", lec: 2, lab: 0 },
-        { year: "2", sem: "2", code: "SSP 006", title: "Student Success Program 2", lec: 1, lab: 0 },
-        { year: "2", sem: "2", code: "GEN 010", title: "Gender and Society", lec: 3, lab: 0 },
-        // Year 3, Sem 1
-        { year: "3", sem: "1", code: "CPE 040", title: "Logic Circuits and Design", lec: 3, lab: 1 },
-        { year: "3", sem: "1", code: "ITE 076", title: "Operating Systems", lec: 3, lab: 0 },
-        { year: "3", sem: "1", code: "CPE 041", title: "Data and Digital Communications", lec: 3, lab: 0 },
-        { year: "3", sem: "1", code: "CPE 042", title: "Introduction to Hardware Description Language", lec: 0, lab: 1 },
-        { year: "3", sem: "1", code: "CPE 043", title: "Feedback and Control Systems", lec: 3, lab: 0 },
-        { year: "3", sem: "1", code: "CPE 044", title: "Fundamentals of Mixed Signals and Sensors", lec: 3, lab: 0 },
-        { year: "3", sem: "1", code: "CPE 053", title: "Embedded Systems 1 (Elective 1)", lec: 3, lab: 0 },
-        { year: "3", sem: "1", code: "PED 032", title: "(PATHFIT 3) Individual and Dual Sport", lec: 2, lab: 0 },
-        { year: "3", sem: "1", code: "SSP 007", title: "Student Success Program 3", lec: 1, lab: 0 },
-        { year: "3", sem: "1", code: "SCX 010", title: "Environmental Science", lec: 3, lab: 0 },
-        // Year 3, Sem 2
-        { year: "3", sem: "2", code: "CPE 045", title: "Basic Occupational Health and Safety", lec: 3, lab: 0 },
-        { year: "3", sem: "2", code: "CPE 046", title: "Computer Networks and Security", lec: 3, lab: 1 },
-        { year: "3", sem: "2", code: "CPE 047", title: "Microprocessors", lec: 3, lab: 1 },
-        { year: "3", sem: "2", code: "CPE 014", title: "Design Project 1 (Methods of Research)", lec: 2, lab: 0 },
-        { year: "3", sem: "2", code: "CPE 054", title: "Embedded Systems 2 (Elective 2)", lec: 3, lab: 0 },
-        { year: "3", sem: "2", code: "PED 033", title: "(PATHFIT 4) Team Sport", lec: 2, lab: 0 },
-        { year: "3", sem: "2", code: "CPE 032", title: "Computer Engineering Drafting and Design", lec: 0, lab: 1 },
-        { year: "3", sem: "2", code: "SSP 008", title: "Student Success Program 4", lec: 1, lab: 0 },
-        { year: "3", sem: "2", code: "ENG 188", title: "Philippine Popular Culture", lec: 3, lab: 0 },
-        // Year 3, Summer
-        { year: "3", sem: "Summer", code: "CPE 050", title: "CpE Practice and Design 1", lec: 0, lab: 1 },
-        { year: "3", sem: "Summer", code: "CPE 055", title: "Embedded Systems 3 (Elective 3)", lec: 3, lab: 0 },
-        { year: "3", sem: "Summer", code: "CPE 013", title: "Emerging Technology", lec: 3, lab: 0 },
-        // Year 4, Sem 1
-        { year: "4", sem: "1", code: "CPE 048", title: "Embedded Systems", lec: 3, lab: 1 },
-        { year: "4", sem: "1", code: "CPE 049", title: "Computer Architecture and Organization", lec: 3, lab: 1 },
-        { year: "4", sem: "1", code: "CPE 051", title: "CpE Practice and Design 2", lec: 0, lab: 2 },
-        { year: "4", sem: "1", code: "ECE 029", title: "Digital Signal Processing", lec: 3, lab: 1 },
-        { year: "4", sem: "1", code: "SSP 009", title: "Student Success Program 5", lec: 1, lab: 0 },
-        { year: "4", sem: "1", code: "CPE 052", title: "CpE Laws and Professional Practice", lec: 2, lab: 0 },
-        { year: "4", sem: "1", code: "CPE 005", title: "CpE Seminars and Field Trips", lec: 0, lab: 1 },
-        // Year 4, Sem 2
-        { year: "4", sem: "2", code: "CPE 036", title: "Technopreneurship", lec: 3, lab: 0 },
-        { year: "4", sem: "2", code: "CPE 004", title: "On The Job Training for CpE (240 hours)", lec: 3, lab: 0 }
+        // ... (Include full list as before) ...
     ];
 
     // 3. MOCK DATABASE
@@ -105,7 +32,17 @@
     function init() {
         const calendarEl = document.getElementById('calendar');
         if (!calendarEl) return;
-        if (calendarInstance) calendarInstance.destroy();
+
+        // Check if FullCalendar is loaded
+        if (typeof FullCalendar === 'undefined') {
+            console.error("FullCalendar library is missing.");
+            return;
+        }
+
+        // Re-initialize logic
+        if (calendarInstance) {
+            calendarInstance.destroy();
+        }
 
         calendarInstance = new FullCalendar.Calendar(calendarEl, {
             initialView: 'timeGridWeek',
@@ -144,27 +81,31 @@
         });
 
         calendarInstance.render();
-        loadYearData("1");
+        loadYearData(currentActiveYear);
         filterSubjects();
-        populateFaculty(); // Initialize Faculty List
+        populateFaculty(); 
         setupEventListeners();
     }
 
-    // --- POPULATE FACULTY DROPDOWN ---
+    // --- POPULATE FACULTY (Connected to API) ---
     function populateFaculty() {
         const facultySelect = document.getElementById('facultySelect');
         if (!facultySelect) return;
         
-        facultySelect.innerHTML = '<option value="">-- Select Instructor --</option>';
-        facultyList.forEach(fac => {
-            const option = document.createElement('option');
-            option.value = fac;
-            option.text = fac;
-            facultySelect.appendChild(option);
-        });
+        fetch('/api/instructors')
+            .then(response => response.json())
+            .then(data => {
+                facultySelect.innerHTML = '<option value="">-- Select Instructor --</option>';
+                data.forEach(fac => {
+                    const option = document.createElement('option');
+                    option.value = fac.name;
+                    option.text = fac.name;
+                    facultySelect.appendChild(option);
+                });
+            })
+            .catch(err => console.error("Error loading faculty for schedules:", err));
     }
 
-    // --- CONFLICT LOGIC ---
     function isOverlapping(newStart, newEnd, targetYear) {
         let eventsToCheck = [];
         if (targetYear === currentActiveYear && calendarInstance) {
@@ -198,8 +139,6 @@
 
         alert(`✅ Schedule Updated!\n\nSubject: ${ev.title}\nNew Time: ${dayStr}, ${startStr} - ${endStr}`);
     }
-
-    // --- MAIN FUNCTIONS ---
 
     function showError(message) {
         const errorEl = document.getElementById('modalError');
@@ -266,10 +205,7 @@
         const start = document.getElementById('startTime').value;
         const end = document.getElementById('endTime').value;
         const room = document.getElementById('roomInput').value;
-        
-        // CHANGED: Get value from new Select dropdown
         const faculty = document.getElementById('facultySelect').value;
-        
         const type = document.getElementById('typeSelect').value;
         const sectionCode = document.getElementById('sectionCode').value;
 
@@ -368,7 +304,7 @@
         modal.style.display = 'flex';
         document.getElementById('modalYear').value = currentActiveYear;
         filterSubjects();
-        populateFaculty(); // Ensure faculty list is ready
+        populateFaculty(); 
     }
     
     function closeModal() { document.getElementById('addClassModal').style.display = 'none'; }

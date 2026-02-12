@@ -9,15 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const END_HOUR = 20;  
     const TIME_SLOTS_PER_HOUR = 2; 
 
-    // --- MAIN FACULTY DATA (Split Load) ---
-    let facultyData = [
-        { id: 1, name: "SANTOS, MARIA CLARA", department: "Computer Engineering", classes: 2, lec: 3.0, lab: 0.0 },
-        { id: 2, name: "REYES, JOHN MICHAEL", department: "Computer Engineering", classes: 2, lec: 3.0, lab: 3.0 },
-        { id: 3, name: "DELA CRUZ, ANNA", department: "Computer Engineering", classes: 2, lec: 0.0, lab: 3.0 },
-        { id: 4, name: "GARCIA, PEDRO", department: "Computer Engineering", classes: 5, lec: 9.0, lab: 0.0 },
-        { id: 5, name: "VILLANUEVA, JOSE", department: "Computer Engineering", classes: 2, lec: 3.0, lab: 1.5 },
-        { id: 6, name: "SAMPLE, FULL LOAD", department: "Computer Engineering", classes: 8, lec: 18.0, lab: 8.0 }
-    ];
+    // --- MAIN FACULTY DATA (Fetched from API) ---
+    let facultyData = [];
 
     let registeredTeachers = [
         { id: 101, name: "BAUTISTA, RYAN", department: "General Education" },
@@ -189,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderFaculty(data) {
         gridContainer.innerHTML = "";
-        if (data.length === 0) {
+        if (!data || data.length === 0) {
             gridContainer.innerHTML = "<p style='color: #777; grid-column: span 3;'>No faculty members found.</p>";
             return;
         }
@@ -296,6 +289,18 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
 
+    // --- FETCH DATA FROM SERVER ---
+    fetch('/api/instructors')
+        .then(response => response.json())
+        .then(data => {
+            facultyData = data;
+            renderFaculty(facultyData);
+        })
+        .catch(err => {
+            console.error('Error fetching instructors:', err);
+            gridContainer.innerHTML = "<p style='color: #a00; grid-column: span 3;'>Error loading data.</p>";
+        });
+
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
@@ -303,5 +308,4 @@ document.addEventListener('DOMContentLoaded', function() {
             renderFaculty(filtered);
         });
     }
-    renderFaculty(facultyData);
 });

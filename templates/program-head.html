@@ -5,6 +5,8 @@
 
 {# 2. Force load Class Records CSS using the extra_css block #}
 {% block extra_css %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/classrecords.css') }}">
     
     <link rel="stylesheet" href="{{ url_for('static', filename='css/program-head.css') }}">
@@ -12,6 +14,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/enlistment.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/student_journey.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/retention.css') }}">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/instructors.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/schedules.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -32,10 +37,7 @@
             <a href="#" class="nav-item" onclick="switchTab(event, 'enlistment')"><i class='bx bx-file-blank'></i> <span>ENLISTMENT</span></a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'journey')"><i class='bx bx-paper-plane'></i> <span>STUDENT JOURNEY</span></a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'retention')"><i class='bx bx-pulse'></i> <span>RETENTION & ADVISING</span></a>
-            
-            {# Link to Class Records Tab #}
             <a href="#" class="nav-item" onclick="switchTab(event, 'classrecords')"><i class='bx bx-folder'></i> <span>CLASS RECORDS</span></a>
-            
             <a href="#" class="nav-item" onclick="switchTab(event, 'schedules')"><i class='bx bx-calendar-event'></i> <span>SCHEDULE</span></a>
             <a href="#" class="nav-item" onclick="switchTab(event, 'instructors')"><i class='bx bx-group'></i> <span>INSTRUCTORS</span></a>
         </nav>
@@ -150,20 +152,24 @@
             <div id="journey-view" style="display:none;">{% include 'includes/program-head/student_journey.html' %}</div>
             <div id="retention-view" style="display:none;">{% include 'includes/program-head/retention.html' %}</div>
             <div id="advising-view" style="display:none;">{% include 'includes/program-head/advising.html' %}</div>
-            
             <div id="classrecords-view" style="display:none;">{% include 'includes/program-head/classrecords.html' %}</div>
-            
             <div id="schedules-view" style="display:none;">{% include 'includes/program-head/schedules.html' %}</div>
+            <div id="instructors-view" style="display:none;">{% include 'includes/program-head/instructors.html' %}</div>
         </main>
     </div>
 {% endblock %}
 
 {# 3. Force load Scripts using the extra_js block #}
 {% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
     <script src="{{ url_for('static', filename='js/program-head.js') }}"></script>
     <script src="{{ url_for('static', filename='js/enrollment.js') }}"></script>
     <script src="{{ url_for('static', filename='js/enlistment.js') }}"></script>
     <script src="{{ url_for('static', filename='js/student_journey.js') }}"></script>
     <script src="{{ url_for('static', filename='js/retention.js') }}"></script>
     <script src="{{ url_for('static', filename='js/classrecords.js') }}"></script>
+    
+    <script src="{{ url_for('static', filename='js/instructors.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/schedules.js') }}"></script>
 {% endblock %}

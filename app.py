@@ -37,6 +37,18 @@ FACULTY_CLASS_LIST = [
     {'id': 3, 'code': 'CE103', 'name': 'Fluid Mechanics', 'students': 38}
 ]
 
+# --- SHARED INSTRUCTORS DATA (Source of Truth) ---
+INSTRUCTORS_DATA = [
+    { 'id': 1, 'name': "SANTOS, MARIA CLARA", 'department': "Computer Engineering", 'classes': 2, 'lec': 3.0, 'lab': 0.0 },
+    { 'id': 2, 'name': "REYES, JOHN MICHAEL", 'department': "Computer Engineering", 'classes': 2, 'lec': 3.0, 'lab': 3.0 },
+    { 'id': 3, 'name': "DELA CRUZ, ANNA", 'department': "Computer Engineering", 'classes': 2, 'lec': 0.0, 'lab': 3.0 },
+    { 'id': 4, 'name': "GARCIA, PEDRO", 'department': "Computer Engineering", 'classes': 5, 'lec': 9.0, 'lab': 0.0 },
+    { 'id': 5, 'name': "VILLANUEVA, JOSE", 'department': "Computer Engineering", 'classes': 2, 'lec': 3.0, 'lab': 1.5 },
+    { 'id': 6, 'name': "SAMPLE, FULL LOAD", 'department': "Computer Engineering", 'classes': 8, 'lec': 18.0, 'lab': 8.0 },
+    { 'id': 7, 'name': "Engr. Juan Dela Cruz", 'department': "Computer Engineering", 'classes': 0, 'lec': 0, 'lab': 0 },
+    { 'id': 8, 'name': "Dr. Jose Rizal", 'department': "General Education", 'classes': 0, 'lec': 0, 'lab': 0 }
+]
+
 # ==================== AUTH & ROUTES ====================
 
 def login_required(f):
@@ -110,7 +122,9 @@ def program_head_dashboard():
             'enlistment.css', 
             'student_journey.css', 
             'retention.css', 
-            'classrecords.css'
+            'classrecords.css',
+            'instructors.css', 
+            'schedules.css'
         ],
         'pageScripts': [
             'program-head.js', 
@@ -118,7 +132,9 @@ def program_head_dashboard():
             'enlistment.js', 
             'student_journey.js', 
             'retention.js', 
-            'classrecords.js'
+            'classrecords.js',
+            'instructors.js',
+            'schedules.js'
         ]
     }
     return render_template('program-head.html', **context)
@@ -137,7 +153,12 @@ def get_inc_requests():
 
 # ==================== GENERIC/STUB APIs ====================
 
-# ... (Make sure you have 'import random' at the very top of app.py) ...
+# --- NEW: Instructors API ---
+@app.route('/api/instructors', methods=['GET'])
+@login_required
+def get_instructors():
+    """Returns the central list of instructors for both modules."""
+    return jsonify(INSTRUCTORS_DATA)
 
 @app.route('/api/enrollment', methods=['POST'])
 @login_required
